@@ -11,7 +11,7 @@ const staffRouter = require('./routes/staff')
 
 var app = express();
 
-mongoose.connect('mongodb+srv://superdev:Xp10UqRxqWHqz9Lb@2013110644-yuu.itnxefc.mongodb.net/refulapi?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb+srv://superdev:Xp10UqRxqWHqz9Lb@2013110644-yuu.itnxefc.mongodb.net/refulapi?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 
 app.use(logger('dev'));
 app.use(express.json());

@@ -6,7 +6,7 @@ const companySchema = new Schema({
     address: {
       province: String
     }
-  }, { collection: "setting"});
+  }, { collection: "companys", versionKey: false});
 
 const company = mongoose.model("Companys", companySchema)
 
