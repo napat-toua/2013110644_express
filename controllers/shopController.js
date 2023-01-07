@@ -10,7 +10,7 @@ exports.index = async(req, res, next) => {
         return {
             id: shop._id,
             name: shop.name,
-            photo: config.DOMAIN + ':' + config.PORT +'/images/' + shops.photo, 
+            photo: config.DOMAIN + ':' + config.PORT +'/images/' + shop.photo,
             location: shop.location
         }
     })
