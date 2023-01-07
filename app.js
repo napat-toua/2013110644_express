@@ -9,10 +9,11 @@ var usersRouter = require('./routes/users');
 var companyRouter = require('./routes/company')
 const staffRouter = require('./routes/staff')
 const shopRouter = require("./routes/shop")
+const config = require('./config/index')
 
 var app = express();
 
-mongoose.connect('mongodb+srv://superdev:Xp10UqRxqWHqz9Lb@2013110644-yuu.itnxefc.mongodb.net/refulapi?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
+mongoose.connect(config.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 
 app.use(logger('dev'));
 app.use(express.json());

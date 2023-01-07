@@ -1,5 +1,6 @@
 const Shop = require('../models/shop')
 const Menu = require('../models/menu')
+const config = require('../config/index')
 
 exports.index = async(req, res, next) => {
 
@@ -9,7 +10,7 @@ exports.index = async(req, res, next) => {
         return {
             id: shop._id,
             name: shop.name,
-            photo: 'http://localhost:3000/images/' + shop.photo, 
+            photo: config.DOMAIN + ':' + config.PORT +'/images/' + shops.photo, 
             location: shop.location
         }
     })
@@ -42,7 +43,7 @@ exports.show = async(req, res, next) => {
         const shopWithPhotodomain = {
                 id: shops._id,
                 name: shops.name,
-                photo: 'http://localhost:3000/images/' + shops.photo, 
+                photo: config.DOMAIN + ':' + config.PORT +'/images/' + shops.photo, 
                 location: shops.location,
                 menus: shops.menus
             }
