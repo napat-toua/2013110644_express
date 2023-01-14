@@ -1,5 +1,6 @@
 const User = require("../models/user")
 
+
 exports.index = (req, res, next) => {
   //res.send('Hello world');
   res.status(200).json({
@@ -18,16 +19,30 @@ exports.bio = (req, res, next) => {
 }
 
 exports.register = async (req, res, next) => {
-  const { name, email, password } = req.body
+  try{
 
-  let user = new User();
-  user.name = name,
-  user.email = email,
-  user.password = await user.encryptPassword(password)
+    const { name, email, password } = req.body
 
-  await user.save()
+    const existEmail = await User.findOne({ email:email })
 
-  res.status(201).json({
-    message: "Register Successfully"
-  })
+    if (existEmail){
+      const error = new Error("Error: This email is already registered.")
+      error.statusCode = 400
+      throw error;
+    }
+
+    let user = new User();
+    user.name = name,
+    user.email = email,
+    user.password = await user.encryptPassword(password)
+
+    await user.save()
+
+    res.status(201).json({
+      message: "Register Successfully"
+    })
+
+  } catch ( error ) {
+    next( error )
+  }
 }

@@ -11,6 +11,8 @@ const staffRouter = require('./routes/staff')
 const shopRouter = require("./routes/shop")
 const config = require('./config/index')
 
+const errorHandler = require('./middleware/errorHandler')
+
 var app = express();
 
 mongoose.connect(config.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
@@ -29,4 +31,5 @@ app.use('/company', companyRouter);
 app.use('/staff', staffRouter);
 app.use('/shop', shopRouter);
 
+app.use(errorHandler)
 module.exports = app;
