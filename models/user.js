@@ -15,6 +15,11 @@ schema.methods.encryptPassword = async function(password){
     return hashPassword
 }
 
+schema.methods.checkPassword = async function(password){
+  const isVaalid = await bcrypt.compare(password, this.password)
+  return isVaalid
+}
+
 const user = mongoose.model("User", schema)
 
 module.exports = user

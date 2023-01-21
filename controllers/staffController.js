@@ -6,6 +6,7 @@ const writeFileAsync = promisify(fs.writeFile)
 
 const Staff = require('../models/staff')
 const config = require('../config/index')
+const { validationResult } = require('express-validator')
 
 exports.index = async(req, res, next) => {
 
@@ -50,8 +51,6 @@ exports.show = async(req, res, next) => {
                 data: staff
             })
         }
-
-
     } catch ( error ){
         next( error )
     }
@@ -59,19 +58,33 @@ exports.show = async(req, res, next) => {
 }
 
 exports.insert = async(req, res, next) => {
+    try{
+        const { name, salary, photo } = req.body
 
-    const { name, salary, photo } = req.body
+        //validation
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const error = new Error("Error: Insert Data Invalid")
+            error.statusCode = 422;
+            error.validation = errors.array()
+            throw error;
+        }        
 
-    let staff = new Staff({
-        name: name,
-        salary: salary, 
-        photo: await saveImageToDisk(photo)
-    });
-    await staff.save()
+        let staff = new Staff({
+            name: name,
+            salary: salary, 
+            photo: photo && await saveImageToDisk(photo)
+        });
+        await staff.save()
 
-    res.status(200).json({
-        message: name + ' data has added',
-    })
+        res.status(200).json({
+            message: name + ' data has added',
+        })
+    }
+    catch ( error ){
+        next( error )
+    }
+    
 }
 
 exports.drop = async(req, res, next) => {

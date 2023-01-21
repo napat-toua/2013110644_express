@@ -7,6 +7,7 @@ const writeFileAsync = promisify(fs.writeFile)
 const Shop = require('../models/shop')
 const Menu = require('../models/menu')
 const config = require('../config/index')
+const { validationResult } = require('express-validator')
 
 exports.index = async(req, res, next) => {
 
@@ -84,20 +85,33 @@ exports.show = async(req, res, next) => {
 }
 
 exports.insert = async(req, res, next) => {
+    try{
+        const { name, location, photo } = req.body
 
-    const { name, location, photo } = req.body
+        //validation
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const error = new Error("Error: Insert Data Invalid")
+            error.statusCode = 422;
+            error.validation = errors.array()
+            throw error;
+        }
 
-    let shop = new Shop({
-        name: name,
-        location: location, 
-        photo: await saveImageToDisk(photo)
-    });
+        let shop = new Shop({
+            name: name,
+            location: location, 
+            photo: photo && await saveImageToDisk(photo)
+        });
 
-    await shop.save()
+        await shop.save()
 
-    res.status(200).json({
-        message: name + ' restaurant data has added',
-    })
+        res.status(200).json({
+            message: name + ' restaurant data has added',
+        })
+    }
+    catch ( error ){
+        next( error )
+    }
 }
 
 async function saveImageToDisk(baseImage) {
