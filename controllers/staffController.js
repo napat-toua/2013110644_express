@@ -22,7 +22,7 @@ exports.index = async(req, res, next) => {
     const staffWithPhotodomain = staffs.map((staff, index)=>{
         return {
             name: staff.name,
-            photo: config.DOMAIN + ':' + config.PORT +'/images/' + staff.photo,
+            photo: config.DOMAIN +'/images/' + staff.photo,
         }
     })
     

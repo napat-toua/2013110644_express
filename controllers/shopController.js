@@ -17,7 +17,7 @@ exports.index = async(req, res, next) => {
         return {
             id: shop._id,
             name: shop.name,
-            photo: config.DOMAIN + ':' + config.PORT +'/images/' + shop.photo,
+            photo: config.DOMAIN +'/images/' + shop.photo,
             location: shop.location
         }
     })
@@ -56,7 +56,7 @@ exports.show = async(req, res, next) => {
         const shopWithPhotodomain = {
                 id: shops._id,
                 name: shops.name,
-                photo: config.DOMAIN + ':' + config.PORT +'/images/' + shops.photo, 
+                photo: config.DOMAIN +'/images/' + shops.photo, 
                 location: shops.location,
                 menus: shops.menus
             }
